@@ -1,3 +1,16 @@
+# Credentials - never commit these
+.ssh/
+.env
+
+# DuckDB databases are rebuilt by load_raw.py and dbt
+*.duckdb
+*.duckdb.wal
+
+# dbt
+target/
+dbt_packages/
+logs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
