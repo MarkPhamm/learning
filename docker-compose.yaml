@@ -23,7 +23,6 @@ services:
       - ./.dbt:/root/.dbt
       - ./.ssh:/root/.ssh
       - ./dbt-snowflake:/app
-      - ./utils/snowflake:/utils
 
   dbt_duckdb:
     build: .
