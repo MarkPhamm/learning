@@ -4,6 +4,9 @@ dbt running in Docker against two warehouses, DuckDB locally and Snowflake
 remotely, using the jaffle shop tutorial dataset. Built as a way to relearn
 Docker alongside dbt.
 
+
+https://github.com/user-attachments/assets/27e5fa0c-2f4e-43c7-894a-e475ce6e0ff0
+
 ## Requirements
 
 Docker Desktop is the only thing you need installed on the host:
