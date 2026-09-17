@@ -1,0 +1,5 @@
+# dbt v2 (formerly Fusion). DuckDB is bundled with this package.
+dbt==2.0.4
+mashumaro==3.22
+msgpack==1.2.2
+typing-extensions==4.16.0

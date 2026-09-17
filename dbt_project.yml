@@ -1,0 +1,26 @@
+name: duckdb_dbt_v2
+version: 1.0.0
+config-version: 2
+
+profile: duckdb_dbt_v2
+require-dbt-version: [">=2.0.0", "<3.0.0"]
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+clean-targets:
+  - target
+  - dbt_packages
+
+models:
+  duckdb_dbt_v2:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
+
+seeds:
+  duckdb_dbt_v2:
+    +quote_columns: false
+
+flags:
+  require_generic_test_arguments_property: true

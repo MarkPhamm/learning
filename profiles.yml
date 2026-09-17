@@ -1,0 +1,8 @@
+duckdb_dbt_v2:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: ./database/duckdb_dbt_v2.duckdb
+      schema: main
+      threads: 4
