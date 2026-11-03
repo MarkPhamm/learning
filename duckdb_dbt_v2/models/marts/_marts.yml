@@ -1,0 +1,101 @@
+version: 2
+
+models:
+  - name: customers
+    description: One row per customer with completed-order lifetime stats.
+    columns:
+      - name: customer_id
+        description: Unique customer identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_name
+        description: Display name.
+      - name: country
+        description: Customer country.
+      - name: order_count
+        description: Count of completed orders.
+      - name: lifetime_revenue
+        description: Sum of completed order amounts.
+      - name: first_ordered_at
+        description: Date of the first completed order.
+      - name: last_ordered_at
+        description: Date of the most recent completed order.
+
+  - name: orders
+    description: One row per order, joined to customer and product attributes.
+    semantic_model:
+      enabled: true
+    agg_time_dimension: ordered_at
+    columns:
+      - name: order_id
+        description: Unique order identifier.
+        data_tests:
+          - unique
+          - not_null
+        entity:
+          type: primary
+          name: order
+      - name: customer_id
+        description: Customer who placed the order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('customers')
+                field: customer_id
+        entity:
+          type: foreign
+          name: customer
+      - name: country
+        description: Customer country at order time.
+        dimension:
+          type: categorical
+      - name: category
+        description: Product category.
+        dimension:
+          type: categorical
+      - name: ordered_at
+        description: Order date.
+        granularity: day
+        dimension:
+          type: time
+      - name: status
+        description: Order lifecycle status.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['completed', 'cancelled', 'returned']
+        dimension:
+          type: categorical
+      - name: amount
+        description: Order amount in USD.
+        data_tests:
+          - not_null
+    metrics:
+      - name: order_count
+        type: simple
+        label: Order count
+        agg: count
+        expr: 1
+      - name: revenue
+        type: simple
+        label: Revenue
+        agg: sum
+        expr: amount
+        filter: |
+          {{ Dimension('order__status') }} = 'completed'
+      - name: average_order_value
+        type: simple
+        label: Average order value
+        agg: average
+        expr: amount
+        filter: |
+          {{ Dimension('order__status') }} = 'completed'
+      - name: revenue_per_order
+        type: derived
+        label: Revenue per order
+        expr: revenue / nullif(order_count, 0)
+        input_metrics:
+          - name: revenue
+          - name: order_count
