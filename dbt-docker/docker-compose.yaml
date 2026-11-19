@@ -1,0 +1,38 @@
+services:
+  dbt_base:
+    build: .
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./.dbt:/root/.dbt
+      - ./.ssh:/root/.ssh
+      - ./:/app
+
+  dbt_snowflake:
+    build: .
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    environment:
+      DBT_TARGET: dbt_snowflake_dev
+    env_file:
+      - path: .env
+        required: false
+    volumes:
+      - ./.dbt:/root/.dbt
+      - ./.ssh:/root/.ssh
+      - ./dbt-snowflake:/app
+
+  dbt_duckdb:
+    build: .
+    command: /bin/bash
+    stdin_open: true
+    tty: true
+    environment:
+      DBT_TARGET: dbt_duckdb_dev
+    volumes:
+      - ./.dbt:/root/.dbt
+      - ./.ssh:/root/.ssh
+      - ./dbt-duckdb:/app
+      - ./utils/duckdb:/utils
