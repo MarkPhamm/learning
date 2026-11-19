@@ -1,0 +1,69 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: Cleaned customer attributes from the raw customer seed.
+    columns:
+      - name: customer_id
+        description: Unique customer identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_name
+        description: First and last name combined.
+      - name: country
+        description: ISO-like country code.
+
+  - name: stg_products
+    description: Cleaned product catalog from the raw product seed.
+    columns:
+      - name: product_id
+        description: Unique product identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: category
+        description: Product category.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['drink', 'food']
+
+  - name: stg_orders
+    description: Cleaned order events from the raw order seed.
+    columns:
+      - name: order_id
+        description: Unique order identifier.
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Customer who placed the order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id
+      - name: product_id
+        description: Product purchased on the order.
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_products')
+                field: product_id
+      - name: ordered_at
+        description: Order date.
+        data_tests:
+          - not_null
+      - name: status
+        description: Order lifecycle status.
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ['completed', 'cancelled', 'returned']
+      - name: amount
+        description: Order amount in USD.
+        data_tests:
+          - not_null

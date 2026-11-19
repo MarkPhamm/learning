@@ -1,0 +1,5 @@
+# dbt OSS (Apache 2.0 subset of v2). DuckDB is bundled.
+dbt-oss==2.0.5
+mashumaro==3.22
+msgpack==1.2.2
+typing-extensions==4.16.0

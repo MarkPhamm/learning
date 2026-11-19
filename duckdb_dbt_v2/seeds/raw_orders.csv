@@ -1,0 +1,11 @@
+order_id,customer_id,product_id,ordered_at,status,amount
+1001,1,coffee,2026-03-01,completed,3.50
+1002,1,bagel,2026-03-01,completed,4.25
+1003,2,latte,2026-03-02,completed,5.00
+1004,3,muffin,2026-03-02,completed,3.75
+1005,2,sandwich,2026-03-03,completed,8.50
+1006,4,coffee,2026-03-03,cancelled,3.50
+1007,5,latte,2026-03-04,completed,5.00
+1008,1,sandwich,2026-03-04,completed,8.50
+1009,3,coffee,2026-03-05,completed,3.50
+1010,4,bagel,2026-03-05,returned,4.25
